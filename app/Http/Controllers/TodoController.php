@@ -5,6 +5,8 @@ use App\Models\TodoTable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
+
 
 class TodoController extends Controller
 {
@@ -28,6 +30,20 @@ class TodoController extends Controller
         return DataTables::eloquent($data)
         ->addIndexColumn()
 
+        ->addColumn('file', function($data){
+             $path = $data->file;
+
+                if (Storage::disk('s3')->exists($path)) {
+                    $fileurl = Storage::disk('s3')->url($path);
+                  } 
+                else{
+                    $fileurl = Storage::disk('public')->url($data->file);
+                }
+
+
+                return '<a href="'.$fileurl.'" class="view-file"/> view file </a>';
+        })
+
          ->addColumn('action', function($data){
                 return '
                 <button data-id="'.$data->id.'" class="btn btn-sm btn-success btn-sm edit-user">Edit</button>
@@ -36,7 +52,7 @@ class TodoController extends Controller
             })
 
 
-            ->rawColumns(['action'])
+            ->rawColumns(['file','action'])
         ->make(true);
 
         }
@@ -58,6 +74,7 @@ class TodoController extends Controller
 
         if($request->filled('aws3')){
             $filepath = $request->file('file')->store('uploads','s3');
+            Storage::disk('s3')->setVisibility($filepath, 'public');
         }
         else{
             $filepath = $request->file('file')->store('uploads','public');

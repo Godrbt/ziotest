@@ -87,6 +87,9 @@
                 ]
             });
 
+
+
+
                 $('table').on('click', '.delete-user', function(e){
                    
                     const id = $(this).data('id');

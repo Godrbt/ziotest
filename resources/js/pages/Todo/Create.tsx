@@ -1,5 +1,4 @@
-
-
+"use client"
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -8,12 +7,7 @@ import { route } from 'ziggy-js';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
 import { CircleAlert } from "lucide-react";
-
-
-"use client"
-
 import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
@@ -49,6 +43,8 @@ export function Calendar22({ value, onChange }: Calendar22Props) {
                 <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                     <Calendar
                         mode="single"
+                         fromYear={2020}          
+                        toYear={2040}
                         selected={value ?? undefined}
                         captionLayout="dropdown"
                         onSelect={(date) => {
@@ -138,7 +134,7 @@ export default function Create() {
                             value="1"
                             onChange={(e) => setData('aws3', e.target.checked ? 1 : null)}
                         />
-                        <Input placeholder='file' type='file' onChange={(e) => setData('file', e.target.files ? e.target.files[0] : null)} />
+                        <Input placeholder='file' type='file' name='file' onChange={(e) => setData('file', e.target.files ? e.target.files[0] : null)} />
                     </div>
                     <Label htmlFor="priority">Priority</Label>
                     <div className="flex gap-6">
