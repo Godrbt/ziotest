@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import {CircleAlert} from "lucide-react";
+import { CircleAlert } from "lucide-react";
 
 
 "use client"
@@ -78,6 +78,7 @@ export default function Create() {
         file: null as File | null,
         priority: null as 'low' | 'medium' | 'high' | null,
         due_date: null as Date | null,
+        aws3: null as number | null,
     })
 
 
@@ -131,6 +132,12 @@ export default function Create() {
                     </div>
                     <div className='gap-1.5'>
                         <Label htmlFor="file">File</Label>
+                        <input
+                            type="checkbox"
+                            name="aws3"
+                            value="1"
+                            onChange={(e) => setData('aws3', e.target.checked ? 1 : null)}
+                        />
                         <Input placeholder='file' type='file' onChange={(e) => setData('file', e.target.files ? e.target.files[0] : null)} />
                     </div>
                     <Label htmlFor="priority">Priority</Label>

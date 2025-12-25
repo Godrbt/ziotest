@@ -47,8 +47,7 @@ class TodoController extends Controller
     
      function store(Request $request)
     {
-        $filepath=$request->file('file')->store('uploads','public');
-
+       
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -56,6 +55,14 @@ class TodoController extends Controller
             'due_date' => 'nullable|date',
             'priority' => 'nullable|in:low,medium,high',
         ]);
+
+        if($request->filled('aws3')){
+            $filepath = $request->file('file')->store('uploads','s3');
+        }
+        else{
+            $filepath = $request->file('file')->store('uploads','public');
+        }
+
         TodoTable::create([
             'name' => $request->name,
             'description' => $request->description,
